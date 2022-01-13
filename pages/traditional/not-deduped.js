@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import RMEpisode from "../../components/RMEpisode";
+import TraditionalEpisode from "../../components/TraditionalEpisode";
 
 export default function NotDeduped() {
   return (
@@ -54,7 +54,7 @@ function TraditionalCharacter({ id }) {
         const episodeUrlParts = episode.split("/").filter(Boolean);
         const episodeId = episodeUrlParts[episodeUrlParts.length - 1];
 
-        return <RMEpisode key={episodeId} episodeId={episodeId} />;
+        return <TraditionalEpisode key={episodeId} episodeId={episodeId} />;
       })}
     </>
   );

@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import RMEpisode from "../../components/RMEpisode";
 
 export default function Character() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { status, error, data } = useQuery(
     ["characters", router.query.id],
     () =>
@@ -21,6 +22,9 @@ export default function Character() {
         <Image src={data.image} alt={data.name} width="300" height="300" />
         <h2>{data.name}</h2>
       </article>
+      <button onClick={() => queryClient.invalidateQueries(["episodes", 25])}>
+        Invalidate Button
+      </button>
       {data.episode.map((episode) => {
         const episodeUrlParts = episode.split("/").filter(Boolean);
         const episodeId = episodeUrlParts[episodeUrlParts.length - 1];
