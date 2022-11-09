@@ -1,22 +1,24 @@
 import Image from "next/image";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import RMEpisode from "../components/RMEpisode";
 
 export default function Deduped() {
   return (
     <>
       <Character id="1" />
-      <Character id="2" />
+      <Character id="1" />
     </>
   );
 }
 
 function Character({ id }) {
-  const { status, error, data } = useQuery(["characters", id], () =>
-    fetch(`https://rickandmortyapi.com/api/character/${id}`).then((res) =>
-      res.json()
-    )
-  );
+  const { status, error, data } = useQuery({
+    queryKey: ["characters", id],
+    queryFn: () =>
+      fetch(`https://rickandmortyapi.com/api/character/${id}`).then((res) =>
+        res.json()
+      ),
+  });
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "error") return <p>Error!!! -&gt; {error}</p>;

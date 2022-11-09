@@ -6,7 +6,7 @@ export default function NotDeduped() {
   return (
     <>
       <TraditionalCharacter id="1" />
-      <TraditionalCharacter id="2" />
+      <TraditionalCharacter id="1" />
     </>
   );
 }

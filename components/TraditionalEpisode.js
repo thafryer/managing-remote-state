@@ -1,4 +1,3 @@
-import { useQuery } from "react-query";
 import { useState, useEffect } from "react";
 export default function TraditionalEpisode({ episodeId }) {
   const [episode, setEpisode] = useState();

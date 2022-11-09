@@ -1,18 +1,18 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import RMEpisode from "../../components/RMEpisode";
 
 export default function Character() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { status, error, data } = useQuery(
-    ["characters", router.query.id],
-    () =>
+  const { status, error, data } = useQuery({
+    queryKey: ["characters", router.query.id],
+    queryFn: () =>
       fetch(
         `https://rickandmortyapi.com/api/character/${router.query.id}`
-      ).then((res) => res.json())
-  );
+      ).then((res) => res.json()),
+  });
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "error") return <p>Error!!! -&gt; {error}</p>;

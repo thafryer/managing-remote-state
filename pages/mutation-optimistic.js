@@ -16,6 +16,24 @@ export default function Mutation() {
 
   const addTodoMutation = useMutation({
     mutationFn: (text) => axios.post("/api/todos", { text }),
+    onMutate: async (text) => {
+      setText("");
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      const previousValue = queryClient.getQueryData(["todos"]);
+
+      queryClient.setQueryData(["todos"], (old) => ({
+        ...old,
+        todos: [...old.todos, text],
+      }));
+
+      return previousValue;
+    },
+    onError: (err, variables, previousValue) =>
+      queryClient.setQueryData(["todos"], previousValue),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
   });
 
   if (status === "loading") return <p>Loading...</p>;

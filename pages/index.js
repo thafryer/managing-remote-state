@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
-  const { status, error, data } = useQuery("characters", () =>
-    fetch("https://rickandmortyapi.com/api/character/").then((res) =>
-      res.json()
-    )
-  );
+  const { status, error, data } = useQuery({
+    queryKey: ["characters"],
+    queryFn: () =>
+      fetch("https://rickandmortyapi.com/api/character/").then((res) =>
+        res.json()
+      ),
+  });
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "error") return <p>Error!!! -&gt; {error}</p>;
